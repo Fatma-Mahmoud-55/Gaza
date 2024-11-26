@@ -44,7 +44,9 @@ const Page = () => {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [mapId, setMapID] = useState<string | null>(null);
     const [selectedGovernorates, setSelectedGovernorates] = useState<string[]>([]); // Updated to string[]
-    const mapImages = {
+
+    // Type for mapImages to specify that it uses numbers as keys
+    const mapImages: { [key: number]: StaticImageData } = {
         1: gaza,
         2: khanYounes,
         3: northernGaza,
@@ -114,7 +116,12 @@ const Page = () => {
         <div className='my-20' dir='rtl'>
             <div className="w-full items-center" dir="rtl">
                 <div className="flex w-full mt-16 flex-col items-center">
-                    <Image src={mapImages[mapId || '1'] || gazaSvg} alt="Gaza Map" className="lg:w-[60vw] w-[90vw]" />
+                    {/* Fix: Ensure mapId is a valid number or fallback */}
+                    <Image
+                        src={mapImages[mapId ? parseInt(mapId) : 1] || gazaSvg}
+                        alt="Gaza Map"
+                        className="lg:w-[60vw] w-[90vw]"
+                    />
                 </div>
             </div>
 
@@ -134,29 +141,20 @@ const Page = () => {
                             <h3 className="text-xl font-semibold mb-2">Governorates</h3>
                             <div className="flex w-full flex-col gap-2">
                                 {data?.results.map((item) => (
-                                    <label key={item.governorate.id} className="flex items-center justify-start p-4 border-b gap-3 bg-white rounded-md cursor-pointer">
+                                    <label key={item.governorate.id} className="flex items-center justify-start p-2">
                                         <input
                                             type="checkbox"
-                                            className="mr-2"
+                                            value={item.governorate.name}
                                             onChange={(e) =>
                                                 handleGovernorateClick(item.governorate.name, e.target.checked)
                                             }
                                         />
-                                        {item.governorate.name}
+                                        <span className="ml-2">{item.governorate.name}</span>
                                     </label>
                                 ))}
                             </div>
                         </div>
                     </div>
-                )}
-            </div>
-
-            {/* Display Selected Governorate Statistics */}
-            <div className="w-10/12 mx-auto bg-[#b3e0d4] mt-6 p-6 rounded-2xl" dir="rtl">
-                {selectedGovernorates.length > 0 ? (
-                    <div>Selected Governorates: {selectedGovernorates.join(', ')}</div>
-                ) : (
-                    <div>No Governorates Selected</div>
                 )}
             </div>
         </div>
