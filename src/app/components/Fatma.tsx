@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -26,15 +26,7 @@ interface Country {
     longitude: number;
 }
 
-interface CountryData {
-    country: Country;
-    projects: Project[];
-}
 
-interface ApiResponse {
-    results: CountryData[];
-    total_cost: string;
-}
 
 // Custom Marker Icon
 const redIcon = new Icon({
@@ -49,8 +41,6 @@ const Fatma: React.FC = () => {
     const [expandedCountry, setExpandedCountry] = useState<Map<number, boolean>>(new Map());
     const [selectedProjects, setSelectedProjects] = useState<Record<number, Project[]>>({});
     // const [projectsData, setProjectsData] = useState<ApiResponse | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
 
 
     const projectsData= {
