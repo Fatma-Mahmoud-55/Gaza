@@ -1,6 +1,8 @@
+import GazaMap from "@/app/components/GazaMap";
 
 export default function Home() {
   return (<>
-   Gaza Task
+   Gaza
+      <GazaMap/>
   </>);
 }
