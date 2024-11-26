@@ -7,6 +7,6 @@ export default function Home() {
    Gaza
 
       <GazaTest/>
-      <Fatma/>
+      {/*<Fatma/>*/}
   </>);
 }
