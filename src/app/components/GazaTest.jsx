@@ -1,10 +1,9 @@
 "use client"
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-// import GazaStripP from "@/app/components/Map/GazaStripP";
 
 // Static Data
 const data = {
@@ -65,8 +64,6 @@ const data = {
     ],
     total_cost: "3,265,034.00",
 };
-
-// Custom Marker Icon
 const redIcon = new Icon({
     iconUrl:
         "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
@@ -78,6 +75,11 @@ const redIcon = new Icon({
 const MapComponent = () => {
     const [expandedCountry, setExpandedCountry] = useState(new Map());
     const [selectedProjects, setSelectedProjects] = useState({});
+    const [isClient, setIsClient] = useState(false); // Track if we are on the client side
+
+    useEffect(() => {
+        setIsClient(true); // Set to true after the component mounts, ensuring it's on the client
+    }, []);
 
     const toggleCountry = (countryId) => {
         setExpandedCountry((prev) => {
@@ -108,12 +110,13 @@ const MapComponent = () => {
         });
     };
 
+    if (!isClient) {
+        return null; // Render nothing on the server-side
+    }
+
     return (
         <>
-            {/*<GazaStripP />*/}
-            <h1 className="w-fit text-center font-semibold text-2xl p-3 bg-[#00997180] rounded-xl mx-auto my-10">
-                Countries serving the Gaza Strip
-            </h1>
+            {/* Your component JSX */}
             <div className="flex">
                 {/* Map */}
                 <div className="w-3/4">
