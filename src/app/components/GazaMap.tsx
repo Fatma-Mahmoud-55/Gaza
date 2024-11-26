@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 interface Project {
     id: number;
