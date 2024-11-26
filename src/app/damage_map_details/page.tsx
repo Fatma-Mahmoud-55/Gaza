@@ -55,7 +55,6 @@ const Page = () => {
 
     useEffect(() => {
         const mapId = localStorage.getItem('mapId');
-        console.log(selectedGovernorates)
         setMapID(mapId);
 
         const fetchedData = {
@@ -112,6 +111,7 @@ const Page = () => {
                 : prev.filter((name) => name !== governorateName)
         );
     };
+    console.log(selectedGovernorates)
 
     return (
         <div className='my-20' dir='rtl'>
