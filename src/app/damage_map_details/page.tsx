@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import gazaSvg from "../../../public/images/gazaSvg.svg";
@@ -43,7 +43,7 @@ const Page = () => {
     const [data, setData] = useState<FetchedData | null>(null);  // Updated state type
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [mapId, setMapID] = useState<string | null>(null);
-    const [selectedGovernorates, setSelectedGovernorates] = useState([]);
+    const [selectedGovernorates, setSelectedGovernorates] = useState<string[]>([]); // Updated to string[]
     const mapImages = {
         1: gaza,
         2: khanYounes,
@@ -102,14 +102,13 @@ const Page = () => {
 
     const toggleFilter = () => setIsFilterOpen((prev) => !prev);
 
-    const handleGovernorateClick = (governorateName, isChecked) => {
+    const handleGovernorateClick = (governorateName: string, isChecked: boolean) => {
         setSelectedGovernorates((prev) =>
             isChecked
                 ? [...prev, governorateName]
                 : prev.filter((name) => name !== governorateName)
         );
     };
-
 
     return (
         <div className='my-20' dir='rtl'>
