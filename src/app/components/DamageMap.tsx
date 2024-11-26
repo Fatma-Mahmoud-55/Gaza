@@ -5,12 +5,9 @@ import gaza from "../../../public/images/gaza.svg";
 import raffah from "../../../public/images/raffah.svg";
 import khanYounes from "../../../public/images/khan-younes.svg";
 import northernGaza from "../../../public/images/northern-gaza.svg";
-import Link from 'next/link';
 import { useRouter } from 'next/navigation'
 
 const DamageMap: React.FC = () => {
-    const router = useRouter();
-    const dataToSend = { name: 'Johnsssssssss Doe', age: 30 };
 
     // Static image list with titles
     const imageList = [
