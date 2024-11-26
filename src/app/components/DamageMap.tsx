@@ -5,8 +5,10 @@ import gaza from "../../../public/images/gaza.svg";
 import raffah from "../../../public/images/raffah.svg";
 import khanYounes from "../../../public/images/khan-younes.svg";
 import northernGaza from "../../../public/images/northern-gaza.svg";
+import { useRouter } from "next/navigation";
 
 const DamageMap: React.FC = () => {
+    const router = useRouter();
 
     // Static image list with titles
     const imageList = [
@@ -34,29 +36,29 @@ const DamageMap: React.FC = () => {
         localStorage.setItem('dataToSend', JSON.stringify(selectedImageName));
 
         // Navigate to Page B
-        // router.push('/damage_map_details');
+        router.push('/damage_map_details');
     };
     return (
         <>
 
-            <div className="w-full items-center">
+            <div className="w-full  ">
                 {/* Top Display Area */}
-                <div className="flex w-full flex-col items-center">
+                <div className="w-full flex justify-center items-center  ">
                     <img
                         src={selectedImage}
                         alt="Selected"
-                        className="!w-[60vw] px-10   "
+                        className="lg:w-[60vw]  w-[90vw]"
                     />
                 </div>
 
                 {/* Bottom Slider */}
-                <div className="slider flex justify-center items-center gap-6 overflow-x-auto p-4 w-full">
+                <div className="slider lg:flex justify-center items-center gap-6 overflow-x-auto p-4 w-full">
                     {imageList.map((image, index) => (
                         <div key={index} className="flex w-full flex-col items-center">
                             <img
                                 src={image.src}
                                 alt={`Thumbnail ${index}`}
-                                className={`w-full object-cover cursor-pointer rounded-lg transition-transform duration-300 p-5 ${
+                                className={`lg:w-full w-7/12 object-cover cursor-pointer rounded-lg transition-transform duration-300 p-5 ${
                                     selectedImage === image.src
                                         ? "scale-105 border-blue-500"
                                         : "border-gray-300"
