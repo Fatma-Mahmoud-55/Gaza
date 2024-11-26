@@ -12,7 +12,7 @@ import northernGaza from "../../../public/images/northern-gaza.svg";
 const Page = () => {
     const [data, setData] = useState(null);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
-    const [mapId, setMapID] = useState(null);
+    const [mapId, setMapID] = useState<string | null>(null); // updated type to handle both string and null
     const [selectedGovernorates, setSelectedGovernorates] = useState([]);
     const mapImages = {
         1: gaza,
@@ -23,7 +23,7 @@ const Page = () => {
 
     useEffect(() => {
         const mapId = localStorage.getItem('mapId');
-        setMapID(mapId);
+        setMapID(mapId); // Now it can accept string or null
         console.log(mapId, "ggggggggggggggguuuuuuuuuuuu");
 
         // Sample data fetching
@@ -90,7 +90,7 @@ const Page = () => {
         <div className='my-20' dir='rtl'>
             <div className="w-full items-center" dir="rtl">
                 <div className="flex w-full mt-16 flex-col items-center">
-                    <Image src={mapImages[mapId] || gazaSvg} alt="Gaza Map" className="lg:w-[60vw] w-[90vw]" />
+                    <Image src={mapImages[mapId || '1'] || gazaSvg} alt="Gaza Map" className="lg:w-[60vw] w-[90vw]" />
                 </div>
             </div>
 
@@ -135,22 +135,13 @@ const Page = () => {
                             <h3 className="font-bold text-lg">{governorate.governorate.name}</h3>
                             <div className="mt-4 flex gap-4">
                                 {governorate.statistics.map((stat) => (
-                                    <div key={stat.id} className="bg-white p-4 rounded-lg">
-                                        <h4 className="font-semibold">{stat.category.name}</h4>
-                                        <p>Damage Value: {stat.damage_value}</p>
-                                        {stat.damage_value_percentage && (
-                                            <p>Percentage: {stat.damage_value_percentage}</p>
-                                        )}
-                                        {stat.photo_icon_url && (
-                                            <img src={stat.photo_icon_url} alt={stat.category.name} />
-                                        )}
-                                    </div>
+                                    <div key={stat.id} className="bg-white..."/>
                                 ))}
                             </div>
                         </div>
                     ))
                 ) : (
-                    <p>Select a governorate to see its statistics.</p>
+                    <p>No governorates selected</p>
                 )}
             </div>
         </div>
