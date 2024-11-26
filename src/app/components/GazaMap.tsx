@@ -22,8 +22,6 @@ interface Country {
     longitude: number;
 }
 
-
-
 const redIcon = new Icon({
     iconUrl:
         "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
