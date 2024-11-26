@@ -1,29 +1,22 @@
 "use client";
 
 
-
-"use client";
-
 import React, { useState } from "react";
-import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
-import { Icon } from "leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 
+import 'leaflet/dist/leaflet.css';
+
+
+
 // Custom Marker Icon
-const redIcon = new Icon({
-    iconUrl:
-        "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [0, -41],
-});
 
 const GazaTest = () => {
+
     const [expandedCountry, setExpandedCountry] = useState(new Map());
     const [selectedProjects, setSelectedProjects] = useState({});
-
 
     const projectsData = {
         "results": [
@@ -117,43 +110,16 @@ const GazaTest = () => {
             </h1>
             <div className="flex">
                 {/* Map */}
-                <div className="w-3/4">
-                    <MapContainer
-                        center={[10, 10]} // Correct: should be a tuple [latitude, longitude]
-                        zoom={2}
-                        style={{ width: "100%", height: "500px" }}
-                        scrollWheelZoom={false} // Optional, to disable mouse wheel zooming
-                    >
-                        <TileLayer
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        />
-                        {projectsData.results.map((item) => (
-                            <Marker
-                                key={item.country.id}
-                                position={[item.country.latitude, item.country.longitude]}
-                                icon={redIcon}
-                            >
-                                {selectedProjects[item.country.id]?.length > 0 && (
-                                    <Tooltip direction="top" permanent>
-                                        <div className="flex flex-wrap space-y-2">
-                                            <h3 className="font-bold">{item.country.name}</h3>
-                                            <div className="flex flex-row">
-                                                {selectedProjects[item.country.id].map((project) => (
-                                                    <div key={project.id} className="bg-[#00994D25] p-4 rounded-md w-44 m-2">
-                                                        <strong className="text-xl">{project.needs}</strong>
-                                                        {/* Other project details */}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </Tooltip>
-                                )}
-                            </Marker>
-                        ))}
-                    </MapContainer>
-
-                </div>
+                <MapContainer center={[51.505, -0.09]} zoom={13} style={{ width: '100%', height: '400px' }}>
+                    <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={[51.505, -0.09]}>
+                        <Popup>
+                            A sample marker.
+                        </Popup>
+                    </Marker>
+                </MapContainer>
 
                 {/* Sidebar */}
                 <div
