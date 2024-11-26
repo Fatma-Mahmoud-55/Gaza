@@ -22,10 +22,7 @@ interface Country {
     longitude: number;
 }
 
-interface CountryData {
-    country: Country;
-    projects: Project[];
-}
+
 
 const redIcon = new Icon({
     iconUrl:
