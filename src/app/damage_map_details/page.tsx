@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
+import Image, {StaticImageData} from "next/image";
 import gazaSvg from "../../../public/images/gazaSvg.svg";
 import { FiFilter } from "react-icons/fi";
 import gaza from "../../../public/images/gaza.svg";
