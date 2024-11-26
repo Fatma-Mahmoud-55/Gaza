@@ -1,30 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 
 
 // Define types
-interface Project {
-    id: number;
-    needs: string;
-    number_of_needs: number;
-    target_number: number;
-    unit_cost: string;
-    total_cost: string;
-    details: string;
-    updated_at: string;
-}
-
-interface Country {
-    id: number;
-    name: string;
-    latitude: number;
-    longitude: number;
-}
 
 
 
@@ -38,12 +20,10 @@ const redIcon = new Icon({
 });
 
 const Fatma: React.FC = () => {
-    const [expandedCountry, setExpandedCountry] = useState<Map<number, boolean>>(new Map());
-    const [selectedProjects, setSelectedProjects] = useState<Record<number, Project[]>>({});
     // const [projectsData, setProjectsData] = useState<ApiResponse | null>(null);
 
 
-    const projectsData= {
+    const selectedProjects= {
         "results": [
             {
                 "country": {
@@ -103,38 +83,7 @@ const Fatma: React.FC = () => {
 
 
 
-    // if (loading) return <p>Loading...</p>;
-    // if (error) return <p>Error: {error}</p>;
-    // if (!projectsData) return <p>No data available</p>;
 
-    const toggleCountry = (countryId: number) => {
-        setExpandedCountry((prev) => {
-            const newExpandedCountry = new Map(prev);
-            const isOpen = newExpandedCountry.get(countryId);
-            newExpandedCountry.set(countryId, !isOpen);
-            return newExpandedCountry;
-        });
-    };
-
-    const handleProjectSelect = (project: Project, country: Country) => {
-        setSelectedProjects((prev) => {
-            const countryId = country.id;
-            const existingProjects = prev[countryId] || [];
-            const isSelected = existingProjects.some((p) => p.id === project.id);
-
-            if (isSelected) {
-                return {
-                    ...prev,
-                    [countryId]: existingProjects.filter((p) => p.id !== project.id),
-                };
-            } else {
-                return {
-                    ...prev,
-                    [countryId]: [...existingProjects, project],
-                };
-            }
-        });
-    };
 
     return (
         <>
@@ -152,7 +101,7 @@ const Fatma: React.FC = () => {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     />
-                    {projectsData.results.map((item) => (
+                    {selectedProjects.results.map((item) => (
                         <Marker
                             key={item.country.id}
                             position={[item.country.latitude, item.country.longitude]}
