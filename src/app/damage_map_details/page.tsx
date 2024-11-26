@@ -55,6 +55,7 @@ const Page = () => {
 
     useEffect(() => {
         const mapId = localStorage.getItem('mapId');
+        console.log(selectedGovernorates)
         setMapID(mapId);
 
         const fetchedData = {
