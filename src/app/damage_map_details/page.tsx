@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import gazaSvg from "../../../public/images/gazaSvg.svg";
@@ -9,10 +7,41 @@ import raffah from "../../../public/images/raffah.svg";
 import khanYounes from "../../../public/images/khan-younes.svg";
 import northernGaza from "../../../public/images/northern-gaza.svg";
 
+// Type definitions for the fetched data
+interface Governorate {
+    id: number;
+    name: string;
+}
+
+interface Category {
+    id: number;
+    name: string;
+}
+
+interface Statistic {
+    id: number;
+    category: Category;
+    damage_value: string;
+    damage_value_percentage: string | null;
+    photo_icon_url: string | null;
+    updated_at: string;
+}
+
+interface FetchedData {
+    count: number;
+    next: string | null;
+    previous: string;
+    results: {
+        governorate: Governorate;
+        statistics: Statistic[];
+    }[];
+    total_damage_value: string;
+}
+
 const Page = () => {
-    const [data, setData] = useState(null);
+    const [data, setData] = useState<FetchedData | null>(null);  // Updated state type
     const [isFilterOpen, setIsFilterOpen] = useState(false);
-    const [mapId, setMapID] = useState<string | null>(null); // updated type to handle both string and null
+    const [mapId, setMapID] = useState<string | null>(null);
     const [selectedGovernorates, setSelectedGovernorates] = useState([]);
     const mapImages = {
         1: gaza,
@@ -23,10 +52,8 @@ const Page = () => {
 
     useEffect(() => {
         const mapId = localStorage.getItem('mapId');
-        setMapID(mapId); // Now it can accept string or null
-        console.log(mapId, "ggggggggggggggguuuuuuuuuuuu");
+        setMapID(mapId);
 
-        // Sample data fetching
         const fetchedData = {
             "count": 117,
             "next": null,
@@ -69,7 +96,7 @@ const Page = () => {
             ],
             "total_damage_value": "47,179,143.00"
         };
-        setData(fetchedData);
+        setData(fetchedData);  // Correctly sets the data now
     }, []);
 
     const toggleFilter = () => setIsFilterOpen((prev) => !prev);
@@ -77,8 +104,8 @@ const Page = () => {
     const handleGovernorateClick = (governorateName, isChecked) => {
         setSelectedGovernorates((prev) =>
             isChecked
-                ? [...prev, governorateName] // Add to selected
-                : prev.filter((name) => name !== governorateName) // Remove from selected
+                ? [...prev, governorateName]
+                : prev.filter((name) => name !== governorateName)
         );
     };
 
@@ -130,18 +157,9 @@ const Page = () => {
             {/* Display Selected Governorate Statistics */}
             <div className="w-10/12 mx-auto bg-[#b3e0d4] mt-6 p-6 rounded-2xl" dir="rtl">
                 {selectedGovernorates.length > 0 ? (
-                    selectedStatistics.map((governorate) => (
-                        <div key={governorate.governorate.id}>
-                            <h3 className="font-bold text-lg">{governorate.governorate.name}</h3>
-                            <div className="mt-4 flex gap-4">
-                                {governorate.statistics.map((stat) => (
-                                    <div key={stat.id} className="bg-white..."/>
-                                ))}
-                            </div>
-                        </div>
-                    ))
+                    <div>Selected Governorates: {selectedGovernorates.join(', ')}</div>
                 ) : (
-                    <p>No governorates selected</p>
+                    <div>No Governorates Selected</div>
                 )}
             </div>
         </div>
