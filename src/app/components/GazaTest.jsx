@@ -119,9 +119,10 @@ const GazaTest = () => {
                 {/* Map */}
                 <div className="w-3/4">
                     <MapContainer
-                        center={[10, 10]}
+                        center={[10, 10]} // Correct: should be a tuple [latitude, longitude]
                         zoom={2}
                         style={{ width: "100%", height: "500px" }}
+                        scrollWheelZoom={false} // Optional, to disable mouse wheel zooming
                     >
                         <TileLayer
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -137,31 +138,11 @@ const GazaTest = () => {
                                     <Tooltip direction="top" permanent>
                                         <div className="flex flex-wrap space-y-2">
                                             <h3 className="font-bold">{item.country.name}</h3>
-                                            <div className="flex flex-row ">
+                                            <div className="flex flex-row">
                                                 {selectedProjects[item.country.id].map((project) => (
-                                                    <div
-                                                        key={project.id}
-                                                        className="bg-[#00994D25] p-4 rounded-md w-44 m-2"
-                                                    >
+                                                    <div key={project.id} className="bg-[#00994D25] p-4 rounded-md w-44 m-2">
                                                         <strong className="text-xl">{project.needs}</strong>
-                                                        <p>
-                                                            <strong>Number of Needs:</strong> {project.number_of_needs}
-                                                        </p>
-                                                        <p>
-                                                            <strong>Target Number:</strong> {project.target_number}
-                                                        </p>
-                                                        <p>
-                                                            <strong>Unit Cost:</strong> {project.unit_cost}
-                                                        </p>
-                                                        <p>
-                                                            <strong>Total Cost:</strong> {project.total_cost}
-                                                        </p>
-                                                        <p>
-                                                            <strong>Updated At:</strong> {project.updated_at}
-                                                        </p>
-                                                        <p className="whitespace-break-spaces">
-                                                            <strong>Details:</strong> {project.details}
-                                                        </p>
+                                                        {/* Other project details */}
                                                     </div>
                                                 ))}
                                             </div>
@@ -171,6 +152,7 @@ const GazaTest = () => {
                             </Marker>
                         ))}
                     </MapContainer>
+
                 </div>
 
                 {/* Sidebar */}
