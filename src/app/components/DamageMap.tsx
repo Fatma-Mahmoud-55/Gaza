@@ -17,7 +17,7 @@ const DamageMap = () => {
     };
 
     const handleImageClick = (image: string) => {
-        console.log(`Image clicked: ${image}`);
+        console.log(`Image clicked: ${image}`,mapId);
         setMapId(image);
         localStorage.setItem("mapId", image);
     };
