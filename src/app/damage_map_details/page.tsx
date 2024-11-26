@@ -110,9 +110,6 @@ const Page = () => {
         );
     };
 
-    const selectedStatistics = data?.results.filter((item) =>
-        selectedGovernorates.includes(item.governorate.name)
-    );
 
     return (
         <div className='my-20' dir='rtl'>
