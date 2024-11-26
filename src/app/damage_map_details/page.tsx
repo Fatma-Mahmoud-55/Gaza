@@ -8,6 +8,7 @@ import gaza from "../../../public/images/gaza.svg";
 import raffah from "../../../public/images/raffah.svg";
 import khanYounes from "../../../public/images/khan-younes.svg";
 import northernGaza from "../../../public/images/northern-gaza.svg";
+
 const Page = () => {
     const [data, setData] = useState(null);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -21,10 +22,11 @@ const Page = () => {
     };
 
     useEffect(() => {
-        const mapId= localStorage.getItem('mapId');
-        setMapID(mapId)
-        console.log(mapId,"ggggggggggggggguuuuuuuuuuuu")
+        const mapId = localStorage.getItem('mapId');
+        setMapID(mapId);
+        console.log(mapId, "ggggggggggggggguuuuuuuuuuuu");
 
+        // Sample data fetching
         const fetchedData = {
             "count": 117,
             "next": null,
@@ -88,30 +90,27 @@ const Page = () => {
         <div className='my-20' dir='rtl'>
             <div className="w-full items-center" dir="rtl">
                 <div className="flex w-full mt-16 flex-col items-center">
-                    <Image  src={mapImages[mapId] || gazaSvg}
-
-                            alt="Gaza Map" className="lg:w-[60vw] w-[90vw]"/>
+                    <Image src={mapImages[mapId] || gazaSvg} alt="Gaza Map" className="lg:w-[60vw] w-[90vw]" />
                 </div>
             </div>
+
             {/* SVG and Filter Header */}
             <div className="w-10/12 mx-auto" dir="rtl">
-                <div className="w-10/12  mt-5 flex gap-3" dir="rtl">
+                <div className="w-10/12 mt-5 flex gap-3" dir="rtl">
                     <div onClick={toggleFilter} className="bg-[#b3e0d4] p-4 w-fit rounded-2xl cursor-pointer">
-                        <FiFilter/>
+                        <FiFilter />
                     </div>
                     <div className="bg-[#b3e0d4] p-3 text-xl px-6 w-fit rounded-2xl">Filteration</div>
                 </div>
+
                 {/* Filter Section */}
                 {isFilterOpen && (
-                    <div className="lg:w-4/12 w-12/12  bg-[#b3e0d4] mt-3 p-4 rounded-2xl" dir="rtl">
+                    <div className="lg:w-4/12 w-12/12 bg-[#b3e0d4] mt-3 p-4 rounded-2xl" dir="rtl">
                         <div className="mb-6">
                             <h3 className="text-xl font-semibold mb-2">Governorates</h3>
                             <div className="flex w-full flex-col gap-2">
                                 {data?.results.map((item) => (
-                                    <label
-                                        key={item.governorate.id}
-                                        className="flex items-center justify-start p-4 border-b  gap-3 bg-white  rounded-md cursor-pointer"
-                                    >
+                                    <label key={item.governorate.id} className="flex items-center justify-start p-4 border-b gap-3 bg-white rounded-md cursor-pointer">
                                         <input
                                             type="checkbox"
                                             className="mr-2"
@@ -128,14 +127,13 @@ const Page = () => {
                 )}
             </div>
 
-
             {/* Display Selected Governorate Statistics */}
             <div className="w-10/12 mx-auto bg-[#b3e0d4] mt-6 p-6 rounded-2xl" dir="rtl">
                 {selectedGovernorates.length > 0 ? (
                     selectedStatistics.map((governorate) => (
                         <div key={governorate.governorate.id}>
                             <h3 className="font-bold text-lg">{governorate.governorate.name}</h3>
-                            <div className="mt-4 flex  gap-4">
+                            <div className="mt-4 flex gap-4">
                                 {governorate.statistics.map((stat) => (
                                     <div key={stat.id} className="bg-white p-4 rounded-lg">
                                         <h4 className="font-semibold">{stat.category.name}</h4>
@@ -144,7 +142,7 @@ const Page = () => {
                                             <p>Percentage: {stat.damage_value_percentage}</p>
                                         )}
                                         {stat.photo_icon_url && (
-                                            <img src={stat.photo_icon_url} alt={stat.category.name}/>
+                                            <img src={stat.photo_icon_url} alt={stat.category.name} />
                                         )}
                                     </div>
                                 ))}
