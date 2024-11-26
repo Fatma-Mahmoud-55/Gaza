@@ -1,105 +1,127 @@
-"use client"
+"use client";
 
-import React from 'react';
-// import gaza from "../../../public/images/gaza.svg";
-// import raffah from "../../../public/images/raffah.svg";
-// import khanYounes from "../../../public/images/khan-younes.svg";
-// import northernGaza from "../../../public/images/northern-gaza.svg";
-// import { useRouter } from "next/navigation";
-
-
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import gazaSvg from "../../../public/images/gazaSvg.svg";
-
-import icon from '../../../public/images/iconn.svg'
 import { FiFilter } from "react-icons/fi";
-
+import gaza from "../../../public/images/gaza.svg";
+import raffah from "../../../public/images/raffah.svg";
+import khanYounes from "../../../public/images/khan-younes.svg";
+import northernGaza from "../../../public/images/northern-gaza.svg";
 const Page = () => {
     const [data, setData] = useState(null);
-    const [isFilterOpen, setIsFilterOpen] = useState(false);  // State to toggle filter visibility
-
-    useEffect(() => {
-        // Retrieve data from localStorage
-        const storedData = localStorage.getItem('dataToSend');
-        if (storedData) {
-            setData(JSON.parse(storedData));  // Parse the JSON data
-            console.log('data',data)
-        }
-    }, []);
-
-    const toggleFilter = () => {
-        setIsFilterOpen(prevState => !prevState);  // Toggle the filter section visibility
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [mapId, setMapID] = useState(null);
+    const [selectedGovernorates, setSelectedGovernorates] = useState([]);
+    const mapImages = {
+        1: gaza,
+        2: khanYounes,
+        3: northernGaza,
+        4: raffah,
     };
 
+    useEffect(() => {
+        const mapId= localStorage.getItem('mapId');
+        setMapID(mapId)
+        console.log(mapId,"ggggggggggggggguuuuuuuuuuuu")
+
+        const fetchedData = {
+            "count": 117,
+            "next": null,
+            "previous": "http://127.0.0.1:7000/api/damage-statistic/?page=11",
+            "results": [
+                {
+                    "governorate": { "id": 5, "name": "رفح" },
+                    "statistics": [
+                        {
+                            "id": 229,
+                            "category": { "id": 6, "name": "عدد نقاط الرعاية الطبية التي تعمل بشكل جزئي" },
+                            "damage_value": "3.00",
+                            "damage_value_percentage": null,
+                            "photo_icon_url": null,
+                            "updated_at": "2024-11-22"
+                        },
+                        {
+                            "id": 230,
+                            "category": { "id": 7, "name": "عدد الوحدات السكنية المدمرة" },
+                            "damage_value": "23,000.00",
+                            "damage_value_percentage": "46.0%",
+                            "photo_icon_url": null,
+                            "updated_at": "2024-11-22"
+                        }
+                    ]
+                },
+                {
+                    "governorate": { "id": 3, "name": "غزة" },
+                    "statistics": [
+                        {
+                            "id": 305,
+                            "category": { "id": 12, "name": "عدد المدارس المتضررة" },
+                            "damage_value": "120",
+                            "damage_value_percentage": "20.0%",
+                            "photo_icon_url": null,
+                            "updated_at": "2024-11-20"
+                        }
+                    ]
+                }
+            ],
+            "total_damage_value": "47,179,143.00"
+        };
+        setData(fetchedData);
+    }, []);
+
+    const toggleFilter = () => setIsFilterOpen((prev) => !prev);
+
+    const handleGovernorateClick = (governorateName, isChecked) => {
+        setSelectedGovernorates((prev) =>
+            isChecked
+                ? [...prev, governorateName] // Add to selected
+                : prev.filter((name) => name !== governorateName) // Remove from selected
+        );
+    };
+
+    const selectedStatistics = data?.results.filter((item) =>
+        selectedGovernorates.includes(item.governorate.name)
+    );
+
     return (
-        <div>
-            <div className="w-full items-center">
-                {/* Top Display Area */}
+        <div className='my-20' dir='rtl'>
+            <div className="w-full items-center" dir="rtl">
                 <div className="flex w-full mt-16 flex-col items-center">
-                    <Image
-                        src={gazaSvg}
-                        alt="Selected"
-                        className="lg:w-[60vw]  w-[90vw]"
-                    />
+                    <Image  src={mapImages[mapId] || gazaSvg}
+
+                            alt="Gaza Map" className="lg:w-[60vw] w-[90vw]"/>
                 </div>
             </div>
-
-            {/* Filter Header with Toggle */}
-            <div className="w-10/12 mx-auto mt-5 flex gap-3 ">
-                <div
-                    onClick={toggleFilter}  // Toggle filter on icon click
-                    className="bg-[#b3e0d4] p-4 w-fit rounded-2xl cursor-pointer"
-                >
-                    <FiFilter/>
+            {/* SVG and Filter Header */}
+            <div className="w-10/12 mx-auto" dir="rtl">
+                <div className="w-10/12  mt-5 flex gap-3" dir="rtl">
+                    <div onClick={toggleFilter} className="bg-[#b3e0d4] p-4 w-fit rounded-2xl cursor-pointer">
+                        <FiFilter/>
+                    </div>
+                    <div className="bg-[#b3e0d4] p-3 text-xl px-6 w-fit rounded-2xl">Filteration</div>
                 </div>
-                <div className="bg-[#b3e0d4] p-3 text-xl px-6 w-fit rounded-2xl">
-                    Filteration
-                </div>
-            </div>
-
-            {/* Conditionally Render Filter Options */}
-            <div className='w-10/12 mx-auto'>
+                {/* Filter Section */}
                 {isFilterOpen && (
-                    <div className="bg-[#b3e0d4] mt-3 lg:w-3/12 w-7/12  rounded-2xl p-3">
-                        {/* Filter Section */}
-                        <div className=" bg-[#b3e0d4] p-3 rounded-2xl w-full">
-                            {/* Damages Section */}
-                            <div className="mb-6">
-                                <h3 className="text-xl font-semibold mb-2">Damages</h3>
-                                <div className="flex flex-col gap-2">
-                                    <label className="flex items-center">
-                                        <input type="checkbox" className="m-2"/> Damage X
+                    <div className="lg:w-4/12 w-12/12  bg-[#b3e0d4] mt-3 p-4 rounded-2xl" dir="rtl">
+                        <div className="mb-6">
+                            <h3 className="text-xl font-semibold mb-2">Governorates</h3>
+                            <div className="flex w-full flex-col gap-2">
+                                {data?.results.map((item) => (
+                                    <label
+                                        key={item.governorate.id}
+                                        className="flex items-center justify-start p-4 border-b  gap-3 bg-white  rounded-md cursor-pointer"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            className="mr-2"
+                                            onChange={(e) =>
+                                                handleGovernorateClick(item.governorate.name, e.target.checked)
+                                            }
+                                        />
+                                        {item.governorate.name}
                                     </label>
-                                    <label className="flex items-center">
-                                        <input type="checkbox" className="m-2"/> Damage y
-                                    </label>
-                                    <label className="flex items-center">
-                                        <input type="checkbox" className="m-2"/> Damage z
-                                    </label>
-                                </div>
-                            </div>
-
-                            {/* Governments Section */}
-                            <div>
-                                <h3 className="text-xl font-semibold mb-2">Governments</h3>
-                                <div className="flex flex-col gap-2">
-                                    <label className="flex items-center">
-                                        <input type="checkbox" className="m-2"/> Northern Gaza
-                                    </label>
-                                    <label className="flex items-center">
-                                        <input type="checkbox" className="m-2"/> Gaza City
-                                    </label>
-                                    <label className="flex items-center">
-                                        <input type="checkbox" className="m-2"/> Central
-                                    </label>
-                                    <label className="flex items-center">
-                                        <input type="checkbox" className="m-2"/> Khan Yunis
-                                    </label>
-                                    <label className="flex items-center">
-                                        <input type="checkbox" className="m-2"/> Raffah
-                                    </label>
-                                </div>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -107,43 +129,31 @@ const Page = () => {
             </div>
 
 
-            {/* Optional white card */}
-            <div className="bg-[#b3e0d4] mt-6 w-10/12 mx-auto rounded-2xl lg:flex flex-wrap gap-4 p-6">
-                <div className="lg:w-3/12 w-12/12 bg-white mt-4 flex justify-center gap-3 items-center rounded-2xl p-3">
-                    <div className="w-full flex flex-col justify-start" dir="ltr">
-                        <h3>Heading : ffff</h3>
-                        <p>ssss sssss ssssssss ssssssssssss ssss</p>
-                    </div>
-                    <Image
-                        src={icon}
-                        alt="Selected"
-                        className="rounded-full w-[60px] h-[60px]"
-                    />
-                </div>
-                <div className="lg:w-3/12 w-12/12 bg-white mt-4 flex justify-center gap-3 items-center rounded-2xl p-3">
-                    <div className="w-full flex flex-col justify-start" dir="ltr">
-                        <h3>Heading : ffff</h3>
-                        <p>ssss sssss ssssssss ssssssssssss ssss</p>
-                    </div>
-                    <Image
-                        src={icon}
-                        alt="Selected"
-                        className="rounded-full w-[60px] h-[60px]"
-                    />
-                </div>
-
-                <div className="lg:w-3/12 w-12/12 bg-white mt-4 flex justify-center gap-3 items-center rounded-2xl p-3">
-                    <div className="w-full flex flex-col justify-start" dir="ltr">
-                        <h3>Heading : ffff</h3>
-                        <p>ssss sssss ssssssss ssssssssssss ssss</p>
-                    </div>
-                    <Image
-                        src={icon}
-                        alt="Selected"
-                        className="rounded-full w-[60px] h-[60px]"
-                    />
-                </div>
-
+            {/* Display Selected Governorate Statistics */}
+            <div className="w-10/12 mx-auto bg-[#b3e0d4] mt-6 p-6 rounded-2xl" dir="rtl">
+                {selectedGovernorates.length > 0 ? (
+                    selectedStatistics.map((governorate) => (
+                        <div key={governorate.governorate.id}>
+                            <h3 className="font-bold text-lg">{governorate.governorate.name}</h3>
+                            <div className="mt-4 flex  gap-4">
+                                {governorate.statistics.map((stat) => (
+                                    <div key={stat.id} className="bg-white p-4 rounded-lg">
+                                        <h4 className="font-semibold">{stat.category.name}</h4>
+                                        <p>Damage Value: {stat.damage_value}</p>
+                                        {stat.damage_value_percentage && (
+                                            <p>Percentage: {stat.damage_value_percentage}</p>
+                                        )}
+                                        {stat.photo_icon_url && (
+                                            <img src={stat.photo_icon_url} alt={stat.category.name}/>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p>Select a governorate to see its statistics.</p>
+                )}
             </div>
         </div>
     );

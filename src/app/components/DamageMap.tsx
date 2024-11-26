@@ -12,10 +12,10 @@ const DamageMap: React.FC = () => {
 
     // Static image list with titles
     const imageList = [
-        { src: gaza.src, title: "Gaza City" },
-        { src: khanYounes.src, title: "Khan Younes" },
-        { src: northernGaza.src, title: "Northern Gaza" },
-        { src: raffah.src, title: "Rafah" },
+        { src: gaza.src, title: "Gaza City",id:1 },
+        { src: khanYounes.src, title: "Khan Younes",id:2 },
+        { src: northernGaza.src, title: "Northern Gaza",id:3 },
+        { src: raffah.src, title: "Rafah",id:4 },
     ];
 
 
@@ -23,17 +23,18 @@ const DamageMap: React.FC = () => {
 
     // State for the selected image
     const [selectedImage, setSelectedImage] = useState<string>(imageList[0].src);
-    const [selectedImageName, setSelectedImageName] = useState<string>(imageList[0].title);
+    const [mapId, setMapId] = useState<string>(imageList[0].title);
 
     // Handle image click
     const handleImageClick = (image: string) => {
-        setSelectedImage(image);
-        setSelectedImageName(image);
+        console.log(`Image clicked: ${image.id}`);
+        setMapId(image.id)
+        setSelectedImage(image.src);
     };
     const handleNavigate = () => {
         console.log(selectedImage,"selectedImageName")
         // Store data in localStorage
-        localStorage.setItem('dataToSend', JSON.stringify(selectedImageName));
+        localStorage.setItem('mapId', JSON.stringify(mapId));
 
         // Navigate to Page B
         router.push('/damage_map_details');
@@ -63,7 +64,7 @@ const DamageMap: React.FC = () => {
                                         ? "scale-105 border-blue-500"
                                         : "border-gray-300"
                                 }`}
-                                onClick={() => handleImageClick(image.src)}
+                                onClick={() => handleImageClick(image)}
                             />
                             <span className="text-sm mt-2 text-center">{image.title}</span>
                         </div>
